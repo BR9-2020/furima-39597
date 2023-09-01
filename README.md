@@ -81,7 +81,7 @@ Things you may want to cover:
 | city_town_village  | string     | null: false                    |
 | street_address     | string     | null: false                    |
 | building_name      | references | null: false, foreign_key: true |
-| phone_number       | string     | null: false                    |
+| phone_number       | string     | null: false                     |
 
 ### Association
 - belongs_to :purchase
