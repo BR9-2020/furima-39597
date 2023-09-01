@@ -62,10 +62,11 @@ Things you may want to cover:
 
 ## purchases テーブル
 
-| Column | Type       | Options                        |
-| -------| ---------- | ------------------------------ |
-| user   | references | null: false, foreign_key: true |
-| item   | references | null: false, foreign_key: true |
+| Column   | Type       | Options                        |
+| ---------| ---------- | ------------------------------ |
+| user     | references | null: false, foreign_key: true |
+| item     | references | null: false, foreign_key: true |
+| shipment | references | null: false, foreign_key: true |
 
 ### Association
 - belongs_to :item
@@ -74,14 +75,14 @@ Things you may want to cover:
 
 ## shipments テーブル
 
-| Column             | Type       | Options                        |
-| ------------------ | ---------- | ------------------------------ |
-| postcode           | string     | null: false                    |
-| shipping_region_id | integer    | null: false                    |
-| city_town_village  | string     | null: false                    |
-| street_address     | string     | null: false                    |
-| building_name      | references | null: false, foreign_key: true |
-| phone_number       | string     | null: false                    |
+| Column             | Type       | Options     |
+| ------------------ | ---------- | ----------- |
+| postcode           | string     | null: false |
+| shipping_region_id | integer    | null: false |
+| city_town_village  | string     | null: false |
+| street_address     | string     | null: false |
+| building_name      | string     |             |
+| phone_number       | string     | null: false |
 
 ### Association
 - belongs_to :purchase
