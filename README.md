@@ -32,11 +32,11 @@ Things you may want to cover:
 | email              | string  | null: false, unique: true |
 | nickname           | string  | null: false               |
 | encrypted_password | string  | null: false               |
-| name               | string  | null: false               |
-| kana_name          | string  | null: false               |
-| birth_year         | integer | null: false               |
-| birth_month        | integer | null: false               |
-| birth_day          | integer | null: false               |
+| last_name          | string  | null: false               |
+| first_name         | string  | null: false               |
+| last_name_kana     | string  | null: false               |
+| first_name_kana    | string  | null: false               |
+| birth_date         | date    | null: false               |
 
 ### Association
 - has_many :items
@@ -74,14 +74,14 @@ Things you may want to cover:
 
 ## shipments テーブル
 
-| Column            | Type   | Options     |
-| ----------------- | ------ | ----------- |
-| postcode          | string | null: false |
-| prefecture        | string | null: false |
-| city_town_village | string | null: false |
-| street_address    | string | null: false |
-| building_name     | string |             |
-| phone_number      | string | null: false |
+| Column             | Type    | Options     |
+| ------------------ | ------- | ----------- |
+| postcode           | string  | null: false |
+| shipping_region_id | integer | null: false |
+| city_town_village  | string  | null: false |
+| street_address     | string  | null: false |
+| building_name      | string  |             |
+| phone_number       | string  | null: false |
 
 ### Association
 - belongs_to :purchase
