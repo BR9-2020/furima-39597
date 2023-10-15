@@ -2,6 +2,7 @@ class PurchasesController < ApplicationController
   before_action :authenticate_user!
   before_action :find_item, only: [:index, :create]
   before_action :check_seller
+  before_action :authorize_user
 
   def index
     @purchase_shipment = PurchaseShipment.new
@@ -30,6 +31,12 @@ class PurchasesController < ApplicationController
   def check_seller
     if current_user.id == @item.user_id # 出品者とログインユーザーが同じなら
       redirect_to root_path # トップページへリダイレクト
+    end
+  end
+
+  def authorize_user
+    if current_user.id == @item.user_id || @item.purchase.present? # ログインユーザーが出品者か、または商品が売り切れている場合
+      redirect_to root_path # トップページにリダイレクト
     end
   end
 end
