@@ -8,7 +8,7 @@ class PurchaseShipment
     validates :shipping_region_id, numericality: { other_than: 1, message: "can't be blank" }
     validates :city_town_village
     validates :street_address
-    validates :phone_number, format: { with: /\A[0-9]{11}\z/, message: 'is invalid' }
+    validates :phone_number, format: { with: /\A[0-9]{10,11}\z/, message: 'is invalid' }
     validates :user_id
     validates :item_id
     validates :token
