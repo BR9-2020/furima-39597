@@ -5,7 +5,7 @@ class PurchasesController < ApplicationController
   before_action :authorize_user
 
   def index
-    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+    gon.public_key = ENV['PAYJP_PUBLIC_KEY']
     @purchase_shipment = PurchaseShipment.new
   end
 
@@ -16,7 +16,7 @@ class PurchasesController < ApplicationController
       @purchase_shipment.save
       redirect_to root_path
     else
-      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
+      gon.public_key = ENV['PAYJP_PUBLIC_KEY']
       render :index, status: :unprocessable_entity
     end
   end
@@ -24,7 +24,9 @@ class PurchasesController < ApplicationController
   private
 
   def purchase_params
-    params.require(:purchase_shipment).permit(:postcode, :shipping_region_id, :city_town_village, :street_address, :building_name, :phone_number).merge(user_id: current_user.id, item_id: @item.id, token: params[:token])
+    params.require(:purchase_shipment).permit(:postcode, :shipping_region_id, :city_town_village, :street_address, :building_name, :phone_number).merge(
+      user_id: current_user.id, item_id: @item.id, token: params[:token]
+    )
   end
 
   def find_item
@@ -32,23 +34,23 @@ class PurchasesController < ApplicationController
   end
 
   def check_seller
-    if current_user.id == @item.user_id
-      redirect_to root_path 
-    end
+    return unless current_user.id == @item.user_id
+
+    redirect_to root_path
   end
 
   def authorize_user
-    if current_user.id == @item.user_id || @item.purchase.present?
-      redirect_to root_path
-    end
+    return unless current_user.id == @item.user_id || @item.purchase.present?
+
+    redirect_to root_path
   end
 
   def pay_item
-    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
+    Payjp.api_key = ENV['PAYJP_SECRET_KEY']
     Payjp::Charge.create(
-      amount: @item.price,  
-      card: purchase_params[:token],    
-      currency: 'jpy'                 
+      amount: @item.price,
+      card: purchase_params[:token],
+      currency: 'jpy'
     )
   end
 end

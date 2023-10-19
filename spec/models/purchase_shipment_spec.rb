@@ -30,7 +30,7 @@ RSpec.describe PurchaseShipment, type: :model do
         expect(@purchase_shipment).to be_valid
       end
       it '電話番号は10桁以上11桁以内の半角数値なら保存できる' do
-        @purchase_shipment.phone_number = 99999999999
+        @purchase_shipment.phone_number = 99_999_999_999
         expect(@purchase_shipment).to be_valid
       end
       it 'user_idが空でなければ保存できる' do
@@ -46,10 +46,11 @@ RSpec.describe PurchaseShipment, type: :model do
       it '郵便番号が空だと保存できない' do
         @purchase_shipment.postcode = nil
         @purchase_shipment.valid?
-        expect(@purchase_shipment.errors.full_messages).to include("Postcode can't be blank", 'Postcode is invalid. Include hyphen(-)')
+        expect(@purchase_shipment.errors.full_messages).to include("Postcode can't be blank",
+                                                                   'Postcode is invalid. Include hyphen(-)')
       end
       it '郵便番号にハイフンがないと保存できない' do
-        @purchase_shipment.postcode = 9999999
+        @purchase_shipment.postcode = 9_999_999
         @purchase_shipment.valid?
         expect(@purchase_shipment.errors.full_messages).to include('Postcode is invalid. Include hyphen(-)')
       end
@@ -84,7 +85,7 @@ RSpec.describe PurchaseShipment, type: :model do
         expect(@purchase_shipment.errors.full_messages).to include('Phone number is invalid')
       end
       it '電話番号が12桁以上だと保存できない' do
-        @purchase_shipment.phone_number = 999999999999999
+        @purchase_shipment.phone_number = 999_999_999_999_999
         @purchase_shipment.valid?
         expect(@purchase_shipment.errors.full_messages).to include('Phone number is invalid')
       end
