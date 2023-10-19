@@ -48,8 +48,18 @@ RSpec.describe PurchaseShipment, type: :model do
         @purchase_shipment.valid?
         expect(@purchase_shipment.errors.full_messages).to include("Postcode can't be blank", 'Postcode is invalid. Include hyphen(-)')
       end
+      it '郵便番号にハイフンがないと保存できない' do
+        @purchase_shipment.postcode = 9999999
+        @purchase_shipment.valid?
+        expect(@purchase_shipment.errors.full_messages).to include('Postcode is invalid. Include hyphen(-)')
+      end
       it '都道府県が「---」だと保存できない' do
         @purchase_shipment.shipping_region_id = 1
+        @purchase_shipment.valid?
+        expect(@purchase_shipment.errors.full_messages).to include("Shipping region can't be blank")
+      end
+      it '都道府県が空だと保存できない' do
+        @purchase_shipment.shipping_region_id = nil
         @purchase_shipment.valid?
         expect(@purchase_shipment.errors.full_messages).to include("Shipping region can't be blank")
       end
@@ -68,6 +78,16 @@ RSpec.describe PurchaseShipment, type: :model do
         @purchase_shipment.valid?
         expect(@purchase_shipment.errors.full_messages).to include("Phone number can't be blank")
       end
+      it '電話番号に-があると保存できない' do
+        @purchase_shipment.phone_number = '999 - 9999 - 9999'
+        @purchase_shipment.valid?
+        expect(@purchase_shipment.errors.full_messages).to include('Phone number is invalid')
+      end
+      it '電話番号が12桁以上だと保存できない' do
+        @purchase_shipment.phone_number = 999999999999999
+        @purchase_shipment.valid?
+        expect(@purchase_shipment.errors.full_messages).to include('Phone number is invalid')
+      end
       it 'user_idが空だと保存できない' do
         @purchase_shipment.user_id = nil
         @purchase_shipment.valid?
@@ -77,6 +97,11 @@ RSpec.describe PurchaseShipment, type: :model do
         @purchase_shipment.item_id = nil
         @purchase_shipment.valid?
         expect(@purchase_shipment.errors.full_messages).to include("Item can't be blank")
+      end
+      it 'トークンが空だと保存できない' do
+        @purchase_shipment.token = nil
+        @purchase_shipment.valid?
+        expect(@purchase_shipment.errors.full_messages).to include("Token can't be blank")
       end
     end
   end
