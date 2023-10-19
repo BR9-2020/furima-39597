@@ -5,6 +5,7 @@ class PurchasesController < ApplicationController
   before_action :authorize_user
 
   def index
+    gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
     @purchase_shipment = PurchaseShipment.new
   end
 
@@ -15,6 +16,7 @@ class PurchasesController < ApplicationController
       @purchase_shipment.save
       redirect_to root_path
     else
+      gon.public_key = ENV["PAYJP_PUBLIC_KEY"]
       render :index, status: :unprocessable_entity
     end
   end
@@ -36,17 +38,17 @@ class PurchasesController < ApplicationController
   end
 
   def authorize_user
-    if current_user.id == @item.user_id || @item.purchase.present? # ログインユーザーが出品者か、または商品が売り切れている場合
-      redirect_to root_path # トップページにリダイレクト
+    if current_user.id == @item.user_id || @item.purchase.present?
+      redirect_to root_path
     end
   end
 
   def pay_item
-    Payjp.api_key = "sk_test_1afdaa97c0f54dedbc5f4c6a"  # 自身のPAY.JPテスト秘密鍵を記述しましょう
+    Payjp.api_key = ENV["PAYJP_SECRET_KEY"]
     Payjp::Charge.create(
-      amount: @item.price,  # 商品の値段
-      card: purchase_params[:token],    # カードトークン
-      currency: 'jpy'                 # 通貨の種類（日本円）
+      amount: @item.price,  
+      card: purchase_params[:token],    
+      currency: 'jpy'                 
     )
   end
 end
