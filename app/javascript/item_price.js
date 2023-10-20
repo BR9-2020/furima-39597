@@ -1,15 +1,18 @@
-const priceInput = document.getElementById("item-price");
-const addTaxDom = document.getElementById("add-tax-price");
-const ProfitDom = document.getElementById("profit");
-
-priceInput.addEventListener("input", () => {
-  const inputValue = priceInput.value;
-  addTaxDom.innerHTML = Math.floor(inputValue * 0.1);
-  ProfitDom.innerHTML = inputValue - addTaxDom.innerHTML;
-});
-
-document.addEventListener('turbo:frame-load', (event) => {
-  if (event.target.id === 'item-price') {
-    priceInput.dispatchEvent(new Event('input'));
+function item_price() {
+  const priceInput = document.getElementById(“item-price”);
+  const addTaxDom = document.getElementById(“add-tax-price”);
+  const addProfitDom = document.getElementById(“profit”);
+  const tax = 0.1;
+  if (priceInput) {
+    priceInput.addEventListener(“input”, () => {
+      const inputValue = priceInput.value;
+      const taxAmount = Math.floor(inputValue * tax);
+      addTaxDom.innerHTML = `${taxAmount}`;
+      const profitAmount = Math.floor(inputValue - taxAmount);
+      addProfitDom.innerHTML = `${profitAmount}`;
+    });
   }
+}
+window.addEventListener(‘click’, () => {
+  item_price();
 });
