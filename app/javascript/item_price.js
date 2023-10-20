@@ -1,10 +1,10 @@
 function item_price() {
-  const priceInput = document.getElementById(“item-price”);
-  const addTaxDom = document.getElementById(“add-tax-price”);
-  const addProfitDom = document.getElementById(“profit”);
+  const priceInput = document.getElementById("item-price");
+  const addTaxDom = document.getElementById("add-tax-price");
+  const addProfitDom = document.getElementById("profit");
   const tax = 0.1;
   if (priceInput) {
-    priceInput.addEventListener(“input”, () => {
+    priceInput.addEventListener("input", () => {
       const inputValue = priceInput.value;
       const taxAmount = Math.floor(inputValue * tax);
       addTaxDom.innerHTML = `${taxAmount}`;
@@ -13,6 +13,6 @@ function item_price() {
     });
   }
 }
-window.addEventListener(‘click’, () => {
+window.addEventListener('click', () => {
   item_price();
 });
